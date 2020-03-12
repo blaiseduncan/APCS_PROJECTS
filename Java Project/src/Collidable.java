@@ -1,9 +1,10 @@
+import java.awt.Graphics;
 
 public class Collidable {
 	protected int x;
 	protected int y;
-	private int width;
-	private int height;
+	protected int width;
+	protected int height;
 	
 	public Collidable(int x, int y, int height, int width) {
 		this.x = x;
@@ -30,5 +31,9 @@ public class Collidable {
 	        x = max;
 	    }
 	    return x;
+	}
+	
+	public void paint(Graphics g) {
+		
 	}
 }
