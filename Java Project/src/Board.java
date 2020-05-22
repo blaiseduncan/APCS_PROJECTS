@@ -2,9 +2,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Board {
-int width;
-int height;
-Collidable[][] objects;
+	int width;
+	int height;
+	Collidable[][] objects;
 
 
 	public Board(int w, int h) {
@@ -45,7 +45,7 @@ Collidable[][] objects;
 					objects[row][i] = new Block( i*100, row*100, 100, 100, h*2);
 				}  else {  objects[row][i] = new Block( i*100, row*100, 100, 100, h); }
 			} else { if((int)(Math.random()*2)==0) {
-				objects[row][i] = new Powerup(i*100+25, row*100+25, 50);
+				objects[row][i] = new Powerup(i*100+37, row*100+37, 25);
 				} continue; 
 			}
 		}

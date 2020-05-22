@@ -35,8 +35,8 @@ import javax.sound.midi.Sequencer;
 public class Driver extends JPanel implements ActionListener, KeyListener,
 		MouseListener, MouseMotionListener {
 	
-	public static int screen_width = 1000;
-	public static int screen_height = 1000;
+	public static int screen_width = 725;
+	public static int screen_height = 850;
 	Board b = new Board(720,960);
 	
 	
@@ -44,9 +44,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	public void paint(Graphics g) {
 
 		super.paintComponent(g);
-		g.setColor(Color.green);
-		g.fillRect(0, 0, screen_width, screen_height);
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect(0, 0, 700, 800);
 		b.paint(g);
+		
 
 		}
 
@@ -74,7 +75,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	
 	public Driver() {
 
-		b.populateRow(1,100);
+		b.populateRow(1,1);
 		JFrame f = new JFrame();
 		f.setTitle("Space Fighter");
 		f.setSize(screen_width, screen_height);
