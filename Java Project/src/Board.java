@@ -2,13 +2,42 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Board {
-	int width;
-	int height;
-	Collidable[][] objects;
+	private int width;
+	private int height;
+	private Collidable[][] objects;
+	private Player p;
+	private int mouseX;
+	private int mouseY;
+	private int playerToMouseDist;
 
+
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public Player getP() {
+		return p;
+	}
+
+	public void setP(Player p) {
+		this.p = p;
+	}
 
 	public Board(int w, int h) {
 		objects = new Collidable[8][7];
+		p = new Player(337, 750, 0, 25);
 		
 		for(int row = 0; row < objects.length; row++) {
 			for(int col = 0; col < objects[0].length; col++) {
@@ -19,6 +48,9 @@ public class Board {
 	}
 	
 	public void paint(Graphics g) {
+			playerToMouseDist = (int) Math.sqrt( Math.pow((mouseY-p.getY()-p.getDiameter()/2) , 2 ) + Math.pow((mouseX-p.getX()-p.getDiameter()/2),2 ));
+
+		
 		for(int row = 0; row < objects.length; row++) {
 			for(int col = 0; col < objects[0].length; col++) {
 				objects[row][col].paint(g);
@@ -34,6 +66,22 @@ public class Board {
 			g.drawLine(0, 100*row, 100*7, 100*row);
 		}
 		
+		g.fillOval(mouseX, mouseY, 5, 5);
+		p.setAngle(-Math.toDegrees(Math.atan2((double)(mouseY-p.getY()-p.getDiameter()/2),(double)(mouseX-p.getX()-p.getDiameter()/2))));
+		if(p.getAngle() <= 0) p.setAngle(p.getAngle()+360);
+		g.drawString(""+p.getAngle()+"", 100, 100);
+		g.drawString(""+playerToMouseDist+"", 100, 50);
+		
+		
+		if(	playerToMouseDist < 350) {
+			System.out.println("yes" + (int)(playerToMouseDist*Math.cos(Math.toRadians(p.getAngle())) +p.getX()+p.getDiameter()/2 ) + ":" + (p.getY()+p.getDiameter()/2 - (int)(playerToMouseDist*Math.sin(Math.toRadians(p.getAngle()))   )));
+			g.drawLine(p.getX()+p.getDiameter()/2, p.getY()+p.getDiameter()/2, (int)(playerToMouseDist*Math.cos(Math.toRadians(p.getAngle()) )+p.getX()+p.getDiameter()/2), (p.getY()+p.getDiameter()/2 - (int)(playerToMouseDist*Math.sin(Math.toRadians(p.getAngle()))   )));
+		} else {
+			g.drawLine(p.getX()+p.getDiameter()/2, p.getY()+p.getDiameter()/2, (int)(350*Math.cos(Math.toRadians(p.getAngle()) )+p.getX()+p.getDiameter()/2), (p.getY()+p.getDiameter()/2 - (int)(350*Math.sin(Math.toRadians(p.getAngle()))   )));
+		}
+		
+		
+		p.paint(g);
 		
 	}
 	
@@ -49,6 +97,22 @@ public class Board {
 				} continue; 
 			}
 		}
+	}
+
+	public int getMouseX() {
+		return mouseX;
+	}
+
+	public void setMouseX(int mouseX) {
+		this.mouseX = mouseX;
+	}
+
+	public int getMouseY() {
+		return mouseY;
+	}
+
+	public void setMouseY(int mouseY) {
+		this.mouseY = mouseY;
 	}
 
 }

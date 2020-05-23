@@ -158,7 +158,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	public void mouseMoved(MouseEvent m) {
 		//this method is triggered anytime there is
 		//mouse movement on the frame
-
+		b.setMouseX(m.getX()-10);
+		b.setMouseY(m.getY()-33);
 
 		
 	}

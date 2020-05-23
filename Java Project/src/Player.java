@@ -4,13 +4,25 @@ import java.util.ArrayList;
 public class Player {
 	private int x;
 	private int y;
+	private int diameter;
+	public int getDiameter() {
+		return diameter;
+	}
+
+
+
+	public void setDiameter(int diameter) {
+		this.diameter = diameter;
+	}
+
 	private double angle;
 	private ArrayList<Ball> balls;
 
-	public Player(int x, int y, double angle) {
+	public Player(int x, int y, double angle, int d) {
 		this.x = x;
 		this.y = y;
 		this.angle = angle;
+		diameter = d;
 		setBalls(new ArrayList<Ball>());
 		
 	}
@@ -18,7 +30,7 @@ public class Player {
 	
 	
 	public void paint(Graphics g) {
-		g.fillOval(x, y, 25, 25);
+		g.fillOval(x, y, diameter, diameter);
 	}
 	
 
