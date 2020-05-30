@@ -8,22 +8,27 @@ public class Ball {
 private int radius; 
 private int xpos;
 private  int ypos;
-private  int xv;
-private  int yv;
- public Ball(int px, int py, int r, int pxv, int pyv){
+private  double xv;
+private  double yv;
+private boolean moving;
+
+public Ball(int px, int py, int r, int pxv, int pyv){
 	xpos=px;
 	ypos=py;
 	radius=r;
 	xv= pxv;
 	yv= pyv;
  }
+
  public void move(){
 	 xpos+=xv;
 	 ypos+=yv;
  }
  public void bounce(){
 	 xv=-xv;
- }public void bounceY(){
+ }
+ 
+ public void bounceY(){
 	 yv=-yv;
  }
  public int getRadius() {
@@ -44,21 +49,38 @@ public int getYpos() {
 public void setYpos(int ypos) {
 	this.ypos = ypos;
 }
-public int getXv() {
+public double getXv() {
 	return xv;
 }
-public void setXv(int xv) {
+public void setXv(double xv) {
 	this.xv = xv;
 }
-public int getYv() {
+public double getYv() {
 	return yv;
 }
-public void setYv(int yv) {
+public void setYv(double yv) {
 	this.yv = yv;
 }
 public void paint(Graphics g){
-		g.setColor(Color.blue);
-	g.fillOval(xpos, ypos, radius, radius);
+	g.setColor(Color.blue);
+	if(ypos >= 850-radius*2) moving = false;
+	if(ypos <= 0) bounceY();
+	if(xpos <= 0) bounce();
+	if(xpos >= 750-radius*2) bounce();
+	
+	if(moving) {
+		g.fillOval(xpos, ypos, radius, radius);
+		xpos += xv;
+		ypos += yv;
+	}
  }
+
+public boolean isMoving() {
+	return moving;
+}
+
+public void setMoving(boolean moving) {
+	this.moving = moving;
+}
 }
 

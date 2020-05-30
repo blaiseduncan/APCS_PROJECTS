@@ -40,26 +40,19 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	Board b = new Board(720,960);
 	
 	
-	
 	public void paint(Graphics g) {
-
 		super.paintComponent(g);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, 700, 800);
 		b.paint(g);
-		
-
-		}
+	}
 
 
-
-	//
 	public void update() {
 		
 	}
 	
 	
-
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		update();
@@ -77,7 +70,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 
 		b.populateRow(1,1);
 		JFrame f = new JFrame();
-		f.setTitle("Space Fighter");
+		f.setTitle("bollocks");
 		f.setSize(screen_width, screen_height);
 		f.setResizable(false);
 		f.addKeyListener(this);
@@ -119,9 +112,11 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//if(s.getFireCount()== s.getRate()){
-		//	s.fireStraws();
-		//}
+		if(!b.getP().allBallsMoving()) {
+			for(int i = 0; i < b.getP().getBalls().size();i++) {
+				b.getP().getBalls().get(i).setMoving(true);
+			}
+		}
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {

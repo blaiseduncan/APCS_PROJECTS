@@ -8,7 +8,7 @@ public class Board {
 	private Player p;
 	private int mouseX;
 	private int mouseY;
-	private int playerToMouseDist;
+	public static int playerToMouseDist;
 
 
 	public int getWidth() {
@@ -37,7 +37,7 @@ public class Board {
 
 	public Board(int w, int h) {
 		objects = new Collidable[8][7];
-		p = new Player(337, 750, 0, 25);
+		p = new Player(337, 750, 0, 10);
 		
 		for(int row = 0; row < objects.length; row++) {
 			for(int col = 0; col < objects[0].length; col++) {
@@ -48,14 +48,17 @@ public class Board {
 	}
 	
 	public void paint(Graphics g) {
-			playerToMouseDist = (int) Math.sqrt( Math.pow((mouseY-p.getY()-p.getDiameter()/2) , 2 ) + Math.pow((mouseX-p.getX()-p.getDiameter()/2),2 ));
-
+		
+		//calculates distance from mouse to player
+		playerToMouseDist = (int) Math.sqrt( Math.pow((mouseY-p.getY()-p.getDiameter()/2) , 2 ) + Math.pow((mouseX-p.getX()-p.getDiameter()/2),2 ));
+		p.setSpeed(playerToMouseDist*20 / 350);
 		
 		for(int row = 0; row < objects.length; row++) {
 			for(int col = 0; col < objects[0].length; col++) {
 				objects[row][col].paint(g);
 			}
 		}
+		
 		for(int col = 0; col <= objects[0].length; col++) {
 			g.setColor(Color.gray);
 			g.drawLine(100*col, 0, 100*col, 800);
@@ -74,9 +77,10 @@ public class Board {
 		
 		
 		if(	playerToMouseDist < 350) {
-			System.out.println("yes" + (int)(playerToMouseDist*Math.cos(Math.toRadians(p.getAngle())) +p.getX()+p.getDiameter()/2 ) + ":" + (p.getY()+p.getDiameter()/2 - (int)(playerToMouseDist*Math.sin(Math.toRadians(p.getAngle()))   )));
+			if (playerToMouseDist <= 255) g.setColor(new Color(255-playerToMouseDist ,255,255-playerToMouseDist/2)); else { g.setColor(new Color(0,255,127));}
 			g.drawLine(p.getX()+p.getDiameter()/2, p.getY()+p.getDiameter()/2, (int)(playerToMouseDist*Math.cos(Math.toRadians(p.getAngle()) )+p.getX()+p.getDiameter()/2), (p.getY()+p.getDiameter()/2 - (int)(playerToMouseDist*Math.sin(Math.toRadians(p.getAngle()))   )));
 		} else {
+			g.setColor(new Color(0,255,127));
 			g.drawLine(p.getX()+p.getDiameter()/2, p.getY()+p.getDiameter()/2, (int)(350*Math.cos(Math.toRadians(p.getAngle()) )+p.getX()+p.getDiameter()/2), (p.getY()+p.getDiameter()/2 - (int)(350*Math.sin(Math.toRadians(p.getAngle()))   )));
 		}
 		
