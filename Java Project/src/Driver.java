@@ -68,7 +68,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	
 	public Driver() {
 
-		b.populateRow(1,1);
+		//b.populateRow(1,1);
+		b.addDebugBlock(1, 3);
 		JFrame f = new JFrame();
 		f.setTitle("bollocks");
 		f.setSize(screen_width, screen_height);
@@ -92,7 +93,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	}
 
 	Timer t;
-
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 

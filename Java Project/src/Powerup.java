@@ -13,8 +13,9 @@ public class Powerup extends Collidable{
 		radius = height;
 	}
 	
-	public boolean collides(Ball b) {
-		  return Math.pow(x+radius-b.getXpos()+b.getRadius(), 2)+Math.pow(y+radius-b.getYpos()+b.getRadius(), 2) <= Math.pow(radius + b.getRadius(), 2);
+	public int collides(Ball b) {
+		  if( Math.pow(x+radius-b.getXpos()+b.getRadius(), 2)+Math.pow(y+radius-b.getYpos()+b.getRadius(), 2) <= Math.pow(radius + b.getRadius(), 2)) return 1;
+		  return 0;
 	}
 	
 	public void paint(Graphics g) {

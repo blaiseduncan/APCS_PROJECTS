@@ -10,8 +10,8 @@ public class Empty extends Collidable {
 		super(x,y,height,width);
 	}
 	
-	public boolean collides(Ball b) {
-		return false;
+	public int collides(Ball b) {
+		return 0;
 	}
 	
 	public void paint(Graphics g) {

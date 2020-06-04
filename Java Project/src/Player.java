@@ -9,7 +9,7 @@ public class Player {
 	private double speed;
 	
 	
-	public void setDiameter(int diameter) {
+	public void setRadius(int diameter) {
 		this.ballradius = diameter;
 	}
 

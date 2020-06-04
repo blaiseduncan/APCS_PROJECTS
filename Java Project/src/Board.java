@@ -53,29 +53,27 @@ public class Board {
 		playerToMouseDist = (int) Math.sqrt( Math.pow((mouseY-p.getY()-p.getDiameter()/2) , 2 ) + Math.pow((mouseX-p.getX()-p.getDiameter()/2),2 ));
 		p.setSpeed(playerToMouseDist*20 / 350);
 		
+		
 		for(int row = 0; row < objects.length; row++) {
 			for(int col = 0; col < objects[0].length; col++) {
 				objects[row][col].paint(g);
+				if(objects[row][col].getClass().getName().contentEquals("Block")) g.fillOval((int)(Collidable.clamp(  (float)(mouseX)  ,  (float)(objects[row][col].getX() )   ,    (float)(objects[row][col].getX()+ objects[row][col].getWidth())) -5 ),
+						(int)(Collidable.clamp(  (float)(mouseY)  ,   (float)(objects[row][col].getY())   ,  (float)(objects[row][col].getY() + objects[row][col].getHeight())) -5),
+						10, 10);
+				for(Ball b: p.getBalls()) {
+					if(b.isMoving()) System.out.println(b.getXpos());
+					if(b.isMoving() && objects[row][col].collides(b)!= 0) System.out.println(objects[row][col].collides(b));
+				}
 			}
 		}
 		
-		for(int col = 0; col <= objects[0].length; col++) {
-			g.setColor(Color.gray);
-			g.drawLine(100*col, 0, 100*col, 800);
-		}
-		
-		for(int row = 0; row <= objects.length;row++) {
-			g.setColor(Color.gray);
-			g.drawLine(0, 100*row, 100*7, 100*row);
-		}
-		
 		g.fillOval(mouseX, mouseY, 5, 5);
+		
 		p.setAngle(-Math.toDegrees(Math.atan2((double)(mouseY-p.getY()-p.getDiameter()/2),(double)(mouseX-p.getX()-p.getDiameter()/2))));
+		
 		if(p.getAngle() <= 0) p.setAngle(p.getAngle()+360);
-		g.drawString(""+p.getAngle()+"", 100, 100);
-		g.drawString(""+playerToMouseDist+"", 100, 50);
 		
-		
+
 		if(	playerToMouseDist < 350) {
 			if (playerToMouseDist <= 255) g.setColor(new Color(255-playerToMouseDist ,255,255-playerToMouseDist/2)); else { g.setColor(new Color(0,255,127));}
 			g.drawLine(p.getX()+p.getDiameter()/2, p.getY()+p.getDiameter()/2, (int)(playerToMouseDist*Math.cos(Math.toRadians(p.getAngle()) )+p.getX()+p.getDiameter()/2), (p.getY()+p.getDiameter()/2 - (int)(playerToMouseDist*Math.sin(Math.toRadians(p.getAngle()))   )));
@@ -84,6 +82,10 @@ public class Board {
 			g.drawLine(p.getX()+p.getDiameter()/2, p.getY()+p.getDiameter()/2, (int)(350*Math.cos(Math.toRadians(p.getAngle()) )+p.getX()+p.getDiameter()/2), (p.getY()+p.getDiameter()/2 - (int)(350*Math.sin(Math.toRadians(p.getAngle()))   )));
 		}
 		
+		
+		g.drawString(""+p.getAngle()+"", 100, 100);
+		
+		g.drawString(""+playerToMouseDist+"", 100, 50);
 		
 		p.paint(g);
 		
@@ -103,6 +105,16 @@ public class Board {
 		}
 	}
 
+	public void addDebugBlock(int row, int col) {
+		Collidable[] temp = new Collidable[objects[row].length];
+		for(int i = 0; i < temp.length; i++) {
+			temp[i] = new Empty(i*100, col*100, 100, 100);
+		}
+		temp[col] = new Block(col*100, row*100, 100, 100, 1);
+		objects[row] = temp;
+	}
+	
+	
 	public int getMouseX() {
 		return mouseX;
 	}

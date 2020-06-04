@@ -13,7 +13,9 @@ public class Block extends Collidable {
 		this.hp= new Integer(hp);
 		this.hpString = String.valueOf(hp);
 	}
-
+	
+	
+	
 	public void paint(Graphics g) {
 		g.setFont(font);
 		g.setColor(new Color(hp,hp,hp));
