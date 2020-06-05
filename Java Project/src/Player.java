@@ -7,6 +7,9 @@ public class Player {
 	private int y;
 	private int ballradius;
 	private double speed;
+	private int px;
+	private int py;
+	private int timer;
 	
 	
 	public void setRadius(int diameter) {
@@ -22,8 +25,9 @@ public class Player {
 		this.angle = angle;
 		ballradius = r;
 		balls = new ArrayList<Ball>();
-		balls.add(new Ball(x, y, ballradius, 0, 0));
-		
+		for(int i = 0; i < 9; i++) {
+			balls.add(new Ball(x, y, ballradius, 0, 0));
+		}
 	}
 	
 	
@@ -44,6 +48,12 @@ public class Player {
 		
 	}
 	
+	
+	public void fireBalls(int index, double a) {
+			balls.get(index).setXv(Math.cos(Math.toRadians(a))*speed);
+			balls.get(index).setYv(-Math.sin(Math.toRadians(a))*speed);
+			balls.get(index).setMoving(true);
+	}
 	
 	public boolean allBallsMoving() {
 		for(int i = 0; i < balls.size();i++) {
@@ -98,5 +108,29 @@ public class Player {
 
 	public void setSpeed(double speed) {
 		this.speed = speed;
+	}
+
+
+
+	public int getPx() {
+		return px;
+	}
+
+
+
+	public void setPx(int px) {
+		this.px = px;
+	}
+
+
+
+	public int getPy() {
+		return py;
+	}
+
+
+
+	public void setPy(int py) {
+		this.py = py;
 	}
 }

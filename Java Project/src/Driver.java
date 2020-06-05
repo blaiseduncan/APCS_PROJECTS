@@ -39,7 +39,6 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	public static int screen_height = 850;
 	Board b = new Board(720,960);
 	
-	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.DARK_GRAY);
@@ -68,10 +67,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	
 	public Driver() {
 
-		//b.populateRow(1,1);
-		b.addDebugBlock(1, 3);
+		b.populateRow(1,1);
+		//b.addDebugBlock(1, 3);
 		JFrame f = new JFrame();
-		f.setTitle("bollocks");
+		f.setTitle("ballocks");
 		f.setSize(screen_width, screen_height);
 		f.setResizable(false);
 		f.addKeyListener(this);
@@ -88,6 +87,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
+		
 		
 		
 	}
@@ -115,10 +115,12 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	public void mouseClicked(MouseEvent e) {
 		if(!b.getP().allBallsMoving()) {
 			for(int i = 0; i < b.getP().getBalls().size();i++) {
-				b.getP().getBalls().get(i).setMoving(true);
+				System.out.println(i);
+				b.getP().fireBalls(i,b.getP().getAngle()+i);
 			}
 		}
 	}
+	
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		

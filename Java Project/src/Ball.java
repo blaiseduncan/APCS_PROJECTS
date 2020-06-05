@@ -6,8 +6,8 @@ import java.awt.color.*;
 
 public class Ball {
 private int radius; 
-private int xpos;
-private  int ypos;
+private double xpos;
+private  double ypos;
 private  double xv;
 private  double yv;
 private boolean moving;
@@ -37,16 +37,16 @@ public Ball(int px, int py, int r, int pxv, int pyv){
 public void setRadius(int radius) {
 	this.radius = radius;
 }
-public int getXpos() {
+public double getXpos() {
 	return xpos;
 }
-public void setXpos(int xpos) {
+public void setXpos(double xpos) {
 	this.xpos = xpos;
 }
-public int getYpos() {
+public double getYpos() {
 	return ypos;
 }
-public void setYpos(int ypos) {
+public void setYpos(double ypos) {
 	this.ypos = ypos;
 }
 public double getXv() {
@@ -66,10 +66,10 @@ public void paint(Graphics g){
 	if(ypos >= 850-radius*2) moving = false;
 	if(ypos <= 0) bounceY();
 	if(xpos <= 0) bounce();
-	if(xpos >= 750-radius*2) bounce();
+	if(xpos >= 750-radius*2-44) bounce();
 	
 	if(moving) {
-		g.fillOval(xpos, ypos, radius, radius);
+		g.fillOval((int)(xpos)-radius, (int)(ypos)-radius, radius*2, radius*2);
 		xpos += xv;
 		ypos += yv;
 	}

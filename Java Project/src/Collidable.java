@@ -5,6 +5,7 @@ public class Collidable {
 	protected int y;
 	protected int width;
 	protected int height;
+	protected int hp;
 	
 	public Collidable(int x, int y, int height, int width) {
 		this.x = x;
@@ -27,16 +28,22 @@ public class Collidable {
 	
 	public int collides(Ball b) {
 		//uses the clamp button to determine closest
-	    float closestX = clamp(b.getXpos()+b.getRadius(), x, x + width);
-	    float closestY = clamp(b.getYpos()+b.getRadius(), y + height, y);
+	    float closestX = clamp((int)(b.getXpos())+b.getRadius(), x, x + width);
+	    float closestY = clamp((int)(b.getYpos())+b.getRadius(), y , y + height);
 	 
-	    float distanceX = b.getXpos() - closestX;
-	    float distanceY = b.getYpos() - closestY;
+	    float distanceX = (int)(b.getXpos()+b.getRadius()) - closestX;
+	    float distanceY = (int)(b.getYpos()+b.getRadius()) - closestY;
+	    //System.out.println(distanceX+"|"+distanceY);
 	    
-	    if(Math.pow(distanceX, 2) + Math.pow(distanceY, 2) < Math.pow(b.getRadius(), 2)) {
-	    	System.out.println("yes");
-	    	if((closestX == x || closestX == x+width) && (closestY > y && closestY < y + height) ) return 2;
-	    	if((closestX < x && closestX > x+width) && (closestY == y || closestY == y+height) ) return 1;
+	   //if(this.getClass().getName().equals("Block") && Math.sqrt( Math.pow(distanceX, 2) + Math.pow(distanceY, 2)) <= 5) System.out.println("yes");
+	   // System.out.println(Math.sqrt( Math.pow(distanceX, 2) + Math.pow(distanceY, 2)));
+	    
+	    
+	    if(Math.sqrt( Math.pow(distanceX, 2) + Math.pow(distanceY, 2)) <= 5){
+	    	//System.out.println("yesa");
+	    	//System.out.println(closestX+"|"+closestY);
+	    	if(     (((int)(closestX) <= x+b.getRadius() && (int)(closestX) >= x )|| ( (int)(closestX) >= x+width-b.getRadius() && (int)(closestX) <= x+width) ) && (    (int)(closestY) > y && (int)(closestY) < y + height) ) return (2); 
+	    	if(((int)(closestX) > x && (int)(closestX) < x+width) && (((int)(closestY) <= y+b.getRadius() && (int)(closestY) >= y )|| ( (int)(closestY) >= y+height-b.getRadius() && (int)(closestY) <= y+height) )) return (1);
 	    }
 	    return 0;
 	}
@@ -77,6 +84,14 @@ public class Collidable {
 
 	public void setHeight(int height) {
 		this.height = height;
+	}
+
+	public int getHp() {
+		return hp;
+	}
+
+	public void setHp(int hp) {
+		this.hp = hp;
 	}
 	
 	

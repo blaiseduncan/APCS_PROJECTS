@@ -37,7 +37,7 @@ public class Board {
 
 	public Board(int w, int h) {
 		objects = new Collidable[8][7];
-		p = new Player(337, 750, 0, 10);
+		p = new Player(337, 750, 0, 8);
 		
 		for(int row = 0; row < objects.length; row++) {
 			for(int col = 0; col < objects[0].length; col++) {
@@ -48,21 +48,54 @@ public class Board {
 	}
 	
 	public void paint(Graphics g) {
+		p.setPx(mouseX);
+		p.setPy(mouseY);
+		
+		
 		
 		//calculates distance from mouse to player
 		playerToMouseDist = (int) Math.sqrt( Math.pow((mouseY-p.getY()-p.getDiameter()/2) , 2 ) + Math.pow((mouseX-p.getX()-p.getDiameter()/2),2 ));
-		p.setSpeed(playerToMouseDist*20 / 350);
+		p.setSpeed(Collidable.clamp(playerToMouseDist*20 / 350, (float)(1), (float)(13)));
 		
 		
 		for(int row = 0; row < objects.length; row++) {
 			for(int col = 0; col < objects[0].length; col++) {
 				objects[row][col].paint(g);
-				if(objects[row][col].getClass().getName().contentEquals("Block")) g.fillOval((int)(Collidable.clamp(  (float)(mouseX)  ,  (float)(objects[row][col].getX() )   ,    (float)(objects[row][col].getX()+ objects[row][col].getWidth())) -5 ),
+				if(objects[row][col].getHp()<= 0) objects[row][col] = new Empty(row*100, col*100, 100, 100);
+				if(objects[row][col].getClass().getName().contentEquals("Block")) { 
+					for(int i = 0; i < p.getBalls().size(); i++) {
+							g.fillOval( (int)(Collidable.clamp( (float)(p.getBalls().get(i).getXpos())  ,  (float)(objects[row][col].getX())  ,  (float)(objects[row][col].getX()+objects[row][col].getWidth()))-p.getBalls().get(i).getRadius() ),
+							(int)(Collidable.clamp((float)(p.getBalls().get(i).getYpos())  ,(float)(objects[row][col].getY())  ,(float)(objects[row][col].getY()+objects[row][col].getHeight()))-p.getBalls().get(i).getRadius()),
+							p.getBalls().get(i).getRadius()*2, p.getBalls().get(i).getRadius()*2);
+						switch(objects[row][col].collides(p.getBalls().get(i))) {
+						case 0:
+							break;
+						case 1:
+							p.getBalls().get(i).bounceY();
+							objects[row][col].setHp(objects[row][col].getHp() -1);
+							break;
+						case 2: 
+							p.getBalls().get(i).bounce();
+							objects[row][col].setHp(objects[row][col].getHp() -1);
+							break;
+						}
+					}
+					
+					
+					
+					/*g.fillOval((int)(Collidable.clamp(  (float)(mouseX)  ,  (float)(objects[row][col].getX() )   ,    (float)(objects[row][col].getX()+ objects[row][col].getWidth())) -5 ),
 						(int)(Collidable.clamp(  (float)(mouseY)  ,   (float)(objects[row][col].getY())   ,  (float)(objects[row][col].getY() + objects[row][col].getHeight())) -5),
-						10, 10);
-				for(Ball b: p.getBalls()) {
-					if(b.isMoving()) System.out.println(b.getXpos());
-					if(b.isMoving() && objects[row][col].collides(b)!= 0) System.out.println(objects[row][col].collides(b));
+						10, 10);*/
+				
+			//	for(Ball b: p.getBalls()) {
+				//	g.fillOval( (int)(Collidable.clamp( (float)(b.getXpos())  ,  (float)(objects[row][col].getX())  ,  (float)(objects[row][col].getX()+objects[row][col].getWidth()))-b.getRadius() ),
+						//	(int)(Collidable.clamp((float)(b.getYpos())  ,(float)(objects[row][col].getY())  ,(float)(objects[row][col].getY()+objects[row][col].getHeight()))-b.getRadius()),
+						//	b.getRadius()*2, b.getRadius()*2);
+					
+					
+					//if(b.isMoving()) System.out.println(b.getXpos());
+					//if(b.isMoving() && objects[row][col].collides(b)!= 0) System.out.println(objects[row][col].collides(b));
+				//}
 				}
 			}
 		}
