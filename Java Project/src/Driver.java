@@ -37,18 +37,31 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	
 	public static int screen_width = 725;
 	public static int screen_height = 850;
+	public static int timer;
+	public static int round;
 	Board b = new Board(720,960);
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0, 0, 700, 800);
+		g.setColor(Color.green);
+		g.drawString(""+b.getP().getNumballs(), 25, 25);
 		b.paint(g);
 	}
 
 
 	public void update() {
+		timer++;
+		//System.out.println(timer);
+		if(timer%100==0) {
+			timer = 0;
+			//System.out.println("YESSSSSSSSSSSSSSSSSSSSS");
+		}
 		
+		if(b.gameOver()) {
+			System.exit(1);
+		}
 	}
 	
 	
@@ -66,8 +79,8 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 	
 	
 	public Driver() {
-
-		b.populateRow(1,1);
+		round = 1;
+		b.populateRow(1,round);
 		//b.addDebugBlock(1, 3);
 		JFrame f = new JFrame();
 		f.setTitle("ballocks");
@@ -83,7 +96,7 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 		// these objects in paint method
 
 		f.add(this);
-		t = new Timer(16, this);
+		t = new Timer(10, this);
 		t.start();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
@@ -113,11 +126,10 @@ public class Driver extends JPanel implements ActionListener, KeyListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if(!b.getP().allBallsMoving()) {
-			for(int i = 0; i < b.getP().getBalls().size();i++) {
-				System.out.println(i);
-				b.getP().fireBalls(i,b.getP().getAngle()+i);
-			}
+		if(b.getP().ballsActive()==false) {
+			b.setMoveInProg(true);
+			b.getP().fireBalls(b.getP().getAngle());
+			round++;
 		}
 	}
 	

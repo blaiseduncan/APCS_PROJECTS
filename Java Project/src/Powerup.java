@@ -8,19 +8,30 @@ public class Powerup extends Collidable{
 	private int radius;
 	
 	
-	public Powerup(int x, int y, int height) {
-		super(x, y, height*2, height*2);
-		radius = height;
+	public Powerup(int x, int y, int radius) {
+		super(x, y, radius*2, radius*2);
+		this.radius = radius;
 	}
 	
 	public int collides(Ball b) {
-		  if( Math.pow(x+radius-b.getXpos()+b.getRadius(), 2)+Math.pow(y+radius-b.getYpos()+b.getRadius(), 2) <= Math.pow(radius + b.getRadius(), 2)) return 1;
+		
+		//FIX THIS DISTANCE FORMULA
+		double xDif = (b.getXpos()) - x-height/2;
+		double yDif = (b.getYpos()) - y-height/2;
+		double distanceSquared = xDif * xDif + yDif * yDif;
+		boolean collision = distanceSquared <= (b.getRadius() + radius) * (b.getRadius() + radius);
+		
+		if(collision) {
+			return 1;
+		  }
 		  return 0;
 	}
 	
 	public void paint(Graphics g) {
 		g.setColor(Color.white);
-		g.fillOval(x, y, radius, radius);
+		g.fillOval(x, y, radius*2, radius*2);
+		g.setColor(Color.BLACK);
+		g.fillOval(x+radius, y+radius, 1, 1);
 		
 	}
 	
